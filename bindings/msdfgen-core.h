@@ -118,6 +118,8 @@ extern "C"
 	void msdfgen_destroyShape(msdfgen_Shape* shape);
 
 	void msdfgen_normalizeShape(msdfgen_Shape* shape);
+	void msdfgen_setShapeInverseYAxis(msdfgen_Shape* shape, bool inverseYAxis);
+	msdfgen_ShapeBounds msdfgen_getShapeBounds(const msdfgen_Shape* shape, double border, double miterLimit, int polarity);
 
 
 	// edge-coloring.h
