@@ -68,3 +68,34 @@ void msdfgen_generateMTSDF_legacy(const msdfgen_BitmapRef* output_rgba, const ms
 {
 	generateMTSDF_legacy(PTR_TO_BITMAP(float, 4, output_rgba), PTR_TO_CONST_REF(Shape, shape), range, VEC2_CAST(scale), VEC2_CAST(translate), PTR_TO_CONST_REF(ErrorCorrectionConfig, errorCorrectionConfig));
 }
+
+msdfgen_Shape* msdfgen_createShape()
+{
+	Shape* shape = new Shape();
+	return (msdfgen_Shape*)shape;
+}
+
+void msdfgen_destroyShape(msdfgen_Shape* shape)
+{
+	delete (Shape*)shape;
+}
+
+void msdfgen_normalizeShape(msdfgen_Shape* shape)
+{
+	((Shape*)shape)->normalize();
+}
+
+void msdfgen_edgeColoringSimple(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed)
+{
+	edgeColoringSimple(PTR_TO_REF(Shape, shape), angleThreshold, seed);
+}
+
+void msdfgen_edgeColoringInkTrap(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed)
+{
+	edgeColoringInkTrap(PTR_TO_REF(Shape, shape), angleThreshold, seed);
+}
+
+void msdfgen_edgeColoringByDistance(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed)
+{
+	edgeColoringByDistance(PTR_TO_REF(Shape, shape), angleThreshold, seed);
+}

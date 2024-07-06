@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -20,7 +22,7 @@ extern "C"
 	extern const msdfgen_GeneratorConfig msdfgen_GeneratorConfig_default;
 
 	/// Mode of operation.
-	enum msdfgen_Mode {
+	typedef enum {
 		/// Skips error correction pass.
 		msdfgen_DISABLED,
 		/// Corrects all discontinuities of the distance field regardless if edges are adversely affected.
@@ -29,16 +31,16 @@ extern "C"
 		msdfgen_EDGE_PRIORITY,
 		/// Only corrects artifacts at edges.
 		msdfgen_EDGE_ONLY
-	};
+	} msdfgen_Mode;
 
-	enum msdfgen_DistanceCheckMode {
+	typedef enum {
 		/// Never computes exact shape distance.
 		msdfgen_DO_NOT_CHECK_DISTANCE,
 		/// Only computes exact shape distance at edges. Provides a good balance between speed and precision.
 		msdfgen_CHECK_DISTANCE_AT_EDGE,
 		/// Computes and compares the exact shape distance for each suspected artifact.
 		msdfgen_ALWAYS_CHECK_DISTANCE
-	};
+	} msdfgen_DistanceCheckMode;
 
 	/// The configuration of the MSDF error correction pass.
 	typedef struct {
@@ -111,6 +113,32 @@ extern "C"
 	void msdfgen_generateMTSDF_legacy(const msdfgen_BitmapRef* output_rgba, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig);
 
 
+	// Shape.h
+	msdfgen_Shape* msdfgen_createShape();
+	void msdfgen_destroyShape(msdfgen_Shape* shape);
+
+	void msdfgen_normalizeShape(msdfgen_Shape* shape);
+
+
+	// edge-coloring.h
+	/** Assigns colors to edges of the shape in accordance to the multi-channel distance field technique.
+	 *  May split some edges if necessary.
+	 *  angleThreshold specifies the maximum angle (in radians) to be considered a corner, for example 3 (~172 degrees).
+	 *  Values below 1/2 PI will be treated as the external angle.
+	 */
+	void msdfgen_edgeColoringSimple(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed);
+
+	/** The alternative "ink trap" coloring strategy is designed for better results with typefaces
+	 *  that use ink traps as a design feature. It guarantees that even if all edges that are shorter than
+	 *  both their neighboring edges are removed, the coloring remains consistent with the established rules.
+	 */
+	void msdfgen_edgeColoringInkTrap(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed);
+
+	/** The alternative coloring by distance tries to use different colors for edges that are close together.
+	 *  This should theoretically be the best strategy on average. However, since it needs to compute the distance
+	 *  between all pairs of edges, and perform a graph optimization task, it is much slower than the rest.
+	 */
+	void msdfgen_edgeColoringByDistance(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed);
 
 #ifdef __cplusplus
 }
