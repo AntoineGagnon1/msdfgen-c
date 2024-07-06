@@ -1,0 +1,123 @@
+#include <bindings/msdfgen-ext.h>
+#include <src/utils.h>
+
+#include <msdfgen/msdfgen-ext.h>
+
+using namespace msdfgen;
+
+const int msdfgen_SVG_IMPORT_FAILURE = SVG_IMPORT_FAILURE;
+const int msdfgen_SVG_IMPORT_SUCCESS_FLAG = SVG_IMPORT_SUCCESS_FLAG;
+const int msdfgen_SVG_IMPORT_PARTIAL_FAILURE_FLAG = SVG_IMPORT_PARTIAL_FAILURE_FLAG;
+const int msdfgen_SVG_IMPORT_INCOMPLETE_FLAG = SVG_IMPORT_INCOMPLETE_FLAG;
+const int msdfgen_SVG_IMPORT_UNSUPPORTED_FEATURE_FLAG = SVG_IMPORT_UNSUPPORTED_FEATURE_FLAG;
+const int msdfgen_SVG_IMPORT_TRANSFORMATION_IGNORED_FLAG = SVG_IMPORT_TRANSFORMATION_IGNORED_FLAG;
+
+bool msdfgen_resolveShapeGeometry(msdfgen_Shape* shape)
+{
+    return false;// resolveShapeGeometry(PTR_TO_REF(Shape, shape));
+}
+
+bool msdfgen_savePng_r8(const msdfgen_BitmapConstRefByte* bitmap_r, const char* filename)
+{
+    return savePng(PTR_TO_CONST_BITMAP(unsigned char, 1, bitmap_r), filename);
+}
+
+bool msdfgen_savePng_rgb8(const msdfgen_BitmapConstRefByte* bitmap_rgb, const char* filename)
+{
+    return savePng(PTR_TO_CONST_BITMAP(unsigned char, 3, bitmap_rgb), filename);
+}
+
+bool msdfgen_savePng_rgba8(const msdfgen_BitmapConstRefByte* bitmap_rgba, const char* filename)
+{
+    return savePng(PTR_TO_CONST_BITMAP(unsigned char, 4, bitmap_rgba), filename);
+}
+
+bool msdfgen_savePng_r(const msdfgen_BitmapConstRef* bitmap_r, const char* filename)
+{
+    return savePng(PTR_TO_CONST_BITMAP(float, 1, bitmap_r), filename);
+}
+
+bool msdfgen_savePng_rgb(const msdfgen_BitmapConstRef* bitmap_rgb, const char* filename)
+{
+    return savePng(PTR_TO_CONST_BITMAP(float, 3, bitmap_rgb), filename);
+}
+
+bool msdfgen_savePng_rgba(const msdfgen_BitmapConstRef* bitmap_rgba, const char* filename)
+{
+    return savePng(PTR_TO_CONST_BITMAP(float, 4, bitmap_rgba), filename);
+}
+
+bool msdfgen_buildShapeFromSvgPath(msdfgen_Shape* shape, const char* pathDef, double endpointSnapRange)
+{
+    return buildShapeFromSvgPath(PTR_TO_REF(Shape, shape), pathDef, endpointSnapRange);
+}
+
+bool msdfgen_loadSvgShape(msdfgen_Shape* output, const char* filename, int pathIndex, msdfgen_Vector2* dimensions)
+{
+    return loadSvgShape(PTR_TO_REF(Shape, output), filename, pathIndex, (Vector2*)dimensions);
+}
+
+int msdfgen_loadSvgShape_skia(msdfgen_Shape* output, msdfgen_ShapeBounds* viewBox, const char* filename)
+{
+    return loadSvgShape(PTR_TO_REF(Shape, output), PTR_TO_REF(Shape::Bounds, viewBox), filename);
+}
+
+msdfgen_FreetypeHandle* msdfgen_initializeFreetype()
+{
+    return (msdfgen_FreetypeHandle*)initializeFreetype();
+}
+
+void msdfgen_deinitializeFreetype(msdfgen_FreetypeHandle* library)
+{
+    deinitializeFreetype((FreetypeHandle*)library);
+}
+
+msdfgen_FontHandle* msdfgen_loadFont(msdfgen_FreetypeHandle* library, const char* filename)
+{
+    return (msdfgen_FontHandle*)loadFont((FreetypeHandle*)library, filename);
+}
+
+msdfgen_FontHandle* msdfgen_loadFontData(msdfgen_FreetypeHandle* library, const unsigned char* data, int length)
+{
+    return (msdfgen_FontHandle*)loadFontData((FreetypeHandle*)library, data, length);
+}
+
+void msdfgen_destroyFont(msdfgen_FontHandle* font)
+{
+    destroyFont((FontHandle*)font);
+}
+
+bool msdfgen_getFontMetrics(msdfgen_FontMetrics* metrics, msdfgen_FontHandle* font)
+{
+    return getFontMetrics(PTR_TO_REF(FontMetrics, metrics), (FontHandle*)font);
+}
+
+bool msdfgen_getFontWhitespaceWidth(double* spaceAdvance, double* tabAdvance, msdfgen_FontHandle* font)
+{
+    return getFontWhitespaceWidth(*spaceAdvance, *tabAdvance, (FontHandle*)font);
+}
+
+bool msdfgen_getGlyphIndex(msdfgen_GlyphIndex* glyphIndex, msdfgen_FontHandle* font, msdfgen_unicode_t unicode)
+{
+    return getGlyphIndex(PTR_TO_REF(GlyphIndex, glyphIndex), (FontHandle*)font, unicode);
+}
+
+bool msdfgen_loadGlyph(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex, double* advance)
+{
+    return loadGlyph(PTR_TO_REF(Shape, output), (FontHandle*)font, glyphIndex, advance);
+}
+
+bool msdfgen_loadGlyph_unicode(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode, double* advance)
+{
+    return loadGlyph(PTR_TO_REF(Shape, output), (FontHandle*)font, unicode, advance);
+}
+
+bool msdfgen_getKerning(double* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex1, msdfgen_GlyphIndex glyphIndex2)
+{
+    return getKerning(*output, (FontHandle*)font, glyphIndex1, glyphIndex2);
+}
+
+bool msdfgen_getKerning_unicode(double* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode1, msdfgen_unicode_t unicode2)
+{
+    return getKerning(*output, (FontHandle*)font, unicode1, unicode2);
+}

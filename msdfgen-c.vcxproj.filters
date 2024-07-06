@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\msdfgen-core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\msdfgen-ext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\arithmetics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Bitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Bitmap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\bitmap-interpolation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\BitmapRef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Contour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\contour-combiners.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\DistanceMapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\EdgeColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\edge-coloring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\EdgeHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\edge-segments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\edge-selectors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\equation-solver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\export-svg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\generator-config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\msdf-error-correction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\MSDFErrorCorrection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\pixel-conversion.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Projection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Range.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\rasterization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\render-sdf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\save-bmp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\save-fl32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\save-rgba.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\save-tiff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Scanline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\sdf-error-estimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\SDFTransformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\shape-description.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\ShapeDistanceFinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\ShapeDistanceFinder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\SignedDistance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\core\Vector2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\ext\import-font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\ext\import-svg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\ext\resolve-shape-geometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\ext\save-png.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\msdfgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\msdfgen-config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msdfgen\msdfgen-ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bindings\msdfgen-core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bindings\msdfgen-ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
