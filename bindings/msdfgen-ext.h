@@ -8,6 +8,7 @@ extern "C"
 #endif
 
 	// resolve-shape-geometry.h
+	/// Resolves any intersections within the shape by subdividing its contours using the Skia library and makes sure its contours have a consistent winding.
 	bool msdfgen_resolveShapeGeometry(msdfgen_Shape* shape);
 
 
@@ -69,6 +70,16 @@ extern "C"
 		double defaultValue;
 	} msdfgen_FontVariationAxis;
 
+	/// The scaling applied to font glyph coordinates when loading a glyph
+	typedef enum {
+		/// The coordinates are kept as the integer values native to the font file
+		msdfgen_FONT_SCALING_NONE,
+		/// The coordinates will be normalized to the em size, i.e. 1 = 1 em
+		msdfgen_FONT_SCALING_EM_NORMALIZED,
+		/// The incorrect legacy version that was in effect before version 1.12, coordinate values are divided by 64 - DO NOT USE - for backwards compatibility only
+		msdfgen_FONT_SCALING_LEGACY
+	} msdfgen_FontCoordinateScaling;
+
 	/// Initializes the FreeType library.
 	msdfgen_FreetypeHandle* msdfgen_initializeFreetype();
 	/// Deinitializes the FreeType library.
@@ -81,17 +92,19 @@ extern "C"
 	/// Unloads a font file.
 	void msdfgen_destroyFont(msdfgen_FontHandle* font);
 	/// Outputs the metrics of a font file.
-	bool msdfgen_getFontMetrics(msdfgen_FontMetrics* metrics, msdfgen_FontHandle* font);
+	bool msdfgen_getFontMetrics(msdfgen_FontMetrics* metrics, msdfgen_FontHandle* font, msdfgen_FontCoordinateScaling coordinateScaling);
 	/// Outputs the width of the space and tab characters.
-	bool msdfgen_getFontWhitespaceWidth(double* spaceAdvance, double* tabAdvance, msdfgen_FontHandle* font);
+	bool msdfgen_getFontWhitespaceWidth(double* spaceAdvance, double* tabAdvance, msdfgen_FontHandle* font, msdfgen_FontCoordinateScaling coordinateScaling);
+	/// Outputs the total number of glyphs available in the font.
+	bool msdfgen_getGlyphCount(unsigned* output, msdfgen_FontHandle* font);
 	/// Outputs the glyph index corresponding to the specified Unicode character.
 	bool msdfgen_getGlyphIndex(msdfgen_GlyphIndex* glyphIndex, msdfgen_FontHandle* font, msdfgen_unicode_t unicode);
 	/// Loads the geometry of a glyph from a font file.
-	bool msdfgen_loadGlyph(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex, double* advance);
-	bool msdfgen_loadGlyph_unicode(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode, double* advance);
+	bool msdfgen_loadGlyph(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex, msdfgen_FontCoordinateScaling coordinateScaling, double* outAdvance);
+	bool msdfgen_loadGlyph_unicode(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode, msdfgen_FontCoordinateScaling coordinateScaling, double* outAdvance);
 	/// Outputs the kerning distance adjustment between two specific glyphs.
-	bool msdfgen_getKerning(double* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex1, msdfgen_GlyphIndex glyphIndex2);
-	bool msdfgen_getKerning_unicode(double* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode1, msdfgen_unicode_t unicode2);
+	bool msdfgen_getKerning(double* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex1, msdfgen_GlyphIndex glyphIndex2, msdfgen_FontCoordinateScaling coordinateScaling);
+	bool msdfgen_getKerning_unicode(double* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode1, msdfgen_unicode_t unicode2, msdfgen_FontCoordinateScaling coordinateScaling);
 
 #ifdef __cplusplus
 }

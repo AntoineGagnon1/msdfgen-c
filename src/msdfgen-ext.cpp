@@ -87,14 +87,19 @@ void msdfgen_destroyFont(msdfgen_FontHandle* font)
     destroyFont((FontHandle*)font);
 }
 
-bool msdfgen_getFontMetrics(msdfgen_FontMetrics* metrics, msdfgen_FontHandle* font)
+bool msdfgen_getFontMetrics(msdfgen_FontMetrics* metrics, msdfgen_FontHandle* font, msdfgen_FontCoordinateScaling coordinateScaling)
 {
-    return getFontMetrics(PTR_TO_REF(FontMetrics, metrics), (FontHandle*)font);
+    return getFontMetrics(PTR_TO_REF(FontMetrics, metrics), (FontHandle*)font, (FontCoordinateScaling)coordinateScaling);
 }
 
-bool msdfgen_getFontWhitespaceWidth(double* spaceAdvance, double* tabAdvance, msdfgen_FontHandle* font)
+bool msdfgen_getFontWhitespaceWidth(double* spaceAdvance, double* tabAdvance, msdfgen_FontHandle* font, msdfgen_FontCoordinateScaling coordinateScaling)
 {
-    return getFontWhitespaceWidth(*spaceAdvance, *tabAdvance, (FontHandle*)font);
+    return getFontWhitespaceWidth(*spaceAdvance, *tabAdvance, (FontHandle*)font, (FontCoordinateScaling)coordinateScaling);
+}
+
+bool msdfgen_getGlyphCount(unsigned* output, msdfgen_FontHandle* font)
+{
+    return getGlyphCount(*output, (FontHandle*)font);
 }
 
 bool msdfgen_getGlyphIndex(msdfgen_GlyphIndex* glyphIndex, msdfgen_FontHandle* font, msdfgen_unicode_t unicode)
@@ -102,22 +107,22 @@ bool msdfgen_getGlyphIndex(msdfgen_GlyphIndex* glyphIndex, msdfgen_FontHandle* f
     return getGlyphIndex(PTR_TO_REF(GlyphIndex, glyphIndex), (FontHandle*)font, unicode);
 }
 
-bool msdfgen_loadGlyph(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex, double* advance)
+bool msdfgen_loadGlyph(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex, msdfgen_FontCoordinateScaling coordinateScaling, double* outAdvance)
 {
-    return loadGlyph(PTR_TO_REF(Shape, output), (FontHandle*)font, glyphIndex, advance);
+    return loadGlyph(PTR_TO_REF(Shape, output), (FontHandle*)font, glyphIndex, (FontCoordinateScaling)coordinateScaling, outAdvance);
 }
 
-bool msdfgen_loadGlyph_unicode(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode, double* advance)
+bool msdfgen_loadGlyph_unicode(msdfgen_Shape* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode, msdfgen_FontCoordinateScaling coordinateScaling, double* outAdvance)
 {
-    return loadGlyph(PTR_TO_REF(Shape, output), (FontHandle*)font, unicode, advance);
+    return loadGlyph(PTR_TO_REF(Shape, output), (FontHandle*)font, unicode, (FontCoordinateScaling)coordinateScaling, outAdvance);
 }
 
-bool msdfgen_getKerning(double* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex1, msdfgen_GlyphIndex glyphIndex2)
+bool msdfgen_getKerning(double* output, msdfgen_FontHandle* font, msdfgen_GlyphIndex glyphIndex1, msdfgen_GlyphIndex glyphIndex2, msdfgen_FontCoordinateScaling coordinateScaling)
 {
-    return getKerning(*output, (FontHandle*)font, glyphIndex1, glyphIndex2);
+    return getKerning(*output, (FontHandle*)font, glyphIndex1, glyphIndex2, (FontCoordinateScaling)coordinateScaling);
 }
 
-bool msdfgen_getKerning_unicode(double* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode1, msdfgen_unicode_t unicode2)
+bool msdfgen_getKerning_unicode(double* output, msdfgen_FontHandle* font, msdfgen_unicode_t unicode1, msdfgen_unicode_t unicode2, msdfgen_FontCoordinateScaling coordinateScaling)
 {
-    return getKerning(*output, (FontHandle*)font, unicode1, unicode2);
+    return getKerning(*output, (FontHandle*)font, unicode1, unicode2, (FontCoordinateScaling)coordinateScaling);
 }

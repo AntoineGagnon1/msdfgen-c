@@ -12,14 +12,17 @@ int main() {
 
     msdfgen_Shape* shape = msdfgen_createShape();
             
-    if (msdfgen_loadGlyph(shape, font, 'A', NULL)) {
+    if (msdfgen_loadGlyph(shape, font, 'A', msdfgen_FONT_SCALING_EM_NORMALIZED, NULL)) {
         msdfgen_normalizeShape(shape);
         msdfgen_edgeColoringSimple(shape, 3.0, 0);
 
         float msdf[32 * 32 * 3];
         msdfgen_BitmapRef msdf_ref = { msdf, 32, 32 };
-        //                                                                  scale,              translation (in em's)
-        msdfgen_generateMSDF_old(&msdf_ref, shape, 4.0, (msdfgen_Vector2) { 1.0, 1.0 }, (msdfgen_Vector2) { 4.0, 4.0 }, &msdfgen_ErrorCorrectionConfig_default, true);
+        
+        const msdfgen_Vector2 scale = { 32.0, 32.0 };
+        const msdfgen_Vector2 translation = { 0.125, 0.125 };
+        const msdfgen_SDFTransformation transform = { (msdfgen_Projection){scale, translation}, msdfgen_symmetricalDistanceMapping(0.125) };
+        msdfgen_generateMSDF(&msdf_ref, shape, &transform, &msdfgen_MSDFGeneratorConfig_default);
         msdfgen_savePng_rgb(&msdf_ref, "output.png");
     }
 

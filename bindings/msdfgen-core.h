@@ -11,8 +11,38 @@ extern "C"
 	} msdfgen_Vector2;
 
 	typedef struct {
+		double lower, upper;
+	} msdfgen_Range;
+
+	inline msdfgen_Range msdfgen_symmetricalRange(double symmetricalWidth) { 
+		msdfgen_Range range = { -.5 * symmetricalWidth, .5 * symmetricalWidth };
+		return range;
+	}
+
+	typedef struct {
 		msdfgen_Vector2 scale, translate;
 	} msdfgen_Projection;
+
+	/// Linear transformation of signed distance values.
+	typedef struct {
+		double scale;
+		double translate;
+	} msdfgen_DistanceMapping;
+
+	inline msdfgen_DistanceMapping msdfgen_DistanceMappingFromRange(msdfgen_Range range) { 
+		msdfgen_DistanceMapping mapping = {1.0 / (range.upper - range.lower), -range.lower}; 
+		return mapping;
+	}
+	inline msdfgen_DistanceMapping msdfgen_symmetricalDistanceMapping(double symmetricalWidth) { return msdfgen_DistanceMappingFromRange(msdfgen_symmetricalRange(symmetricalWidth)); }
+
+	/**
+	 * Full signed distance field transformation specifies both spatial transformation (Projection)
+	 * as well as distance value transformation (DistanceMapping).
+	 */
+	typedef struct {
+		msdfgen_Projection projection;
+		msdfgen_DistanceMapping distanceMapping;
+	} msdfgen_SDFTransformation;
 
 	typedef struct {
 		/// Specifies whether to use the version of the algorithm that supports overlapping contours with the same winding. May be set to false to improve performance when no such contours are present.
@@ -85,32 +115,28 @@ extern "C"
 
 	typedef struct msdfgen_Shape msdfgen_Shape;
 
-	typedef struct Bounds {
+	typedef struct {
 		double l, b, r, t;
 	} msdfgen_ShapeBounds;
 
-	void msdfgen_generateSDF(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, const msdfgen_Projection* projection, double range, const msdfgen_GeneratorConfig* config);
-
-	/// Generates a single-channel signed pseudo-distance field.
-	void msdfgen_generatePseudoSDF(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, const msdfgen_Projection* projection, double range, const msdfgen_GeneratorConfig* config);
-
+	/// Generates a conventional single-channel signed distance field.
+	void msdfgen_generateSDF(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, const msdfgen_SDFTransformation* transformation, const msdfgen_GeneratorConfig* config);
+	
+	/// Generates a single-channel signed perpendicular distance field.
+	void msdfgen_generatePSDF(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, const msdfgen_SDFTransformation* transformation, const msdfgen_GeneratorConfig* config);
+	
 	/// Generates a multi-channel signed distance field. Edge colors must be assigned first! (See edgeColoringSimple)
-	void msdfgen_generateMSDF(const msdfgen_BitmapRef* output_rgb, const msdfgen_Shape* shape, const msdfgen_Projection* projection, double range, const msdfgen_MSDFGeneratorConfig* config);
-
+	void msdfgen_generateMSDF(const msdfgen_BitmapRef* output_rgb, const msdfgen_Shape* shape, const msdfgen_SDFTransformation* transformation, const msdfgen_MSDFGeneratorConfig* config);
+	
 	/// Generates a multi-channel signed distance field with true distance in the alpha channel. Edge colors must be assigned first.
-	void msdfgen_generateMTSDF(const msdfgen_BitmapRef* output_rgba, const msdfgen_Shape* shape, const msdfgen_Projection* projection, double range, const msdfgen_MSDFGeneratorConfig* config);
-
-	// Old version of the function API's kept for backwards compatibility
-	void msdfgen_generateSDF_old(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, bool overlapSupport);
-	void msdfgen_generatePseudoSDF_old(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, bool overlapSupport);
-	void msdfgen_generateMSDF_old(const msdfgen_BitmapRef* output_rgb, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig, bool overlapSupport);
-	void msdfgen_generateMTSDF_old(const msdfgen_BitmapRef* output_rgba, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig, bool overlapSupport);
+	void msdfgen_generateMTSDF(const msdfgen_BitmapRef* output_rgba, const msdfgen_Shape* shape, const msdfgen_SDFTransformation* transformation, const msdfgen_MSDFGeneratorConfig* config);
 
 	// Original simpler versions of the previous functions, which work well under normal circumstances, but cannot deal with overlapping contours.
-	void msdfgen_generateSDF_legacy(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate);
-	void msdfgen_generatePseudoSDF_legacy(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate);
-	void msdfgen_generateMSDF_legacy(const msdfgen_BitmapRef* output_rgb, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig);
-	void msdfgen_generateMTSDF_legacy(const msdfgen_BitmapRef* output_rgba, const msdfgen_Shape* shape, double range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig);
+	void msdfgen_generateSDF_legacy(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, msdfgen_Range range, msdfgen_Vector2 scale, msdfgen_Vector2 translate);
+	void msdfgen_generatePSDF_legacy(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, msdfgen_Range range, msdfgen_Vector2 scale, msdfgen_Vector2 translate);
+	void msdfgen_generatePseudoSDF_legacy(const msdfgen_BitmapRef* output_r, const msdfgen_Shape* shape, msdfgen_Range range, msdfgen_Vector2 scale, msdfgen_Vector2 translate);
+	void msdfgen_generateMSDF_legacy(const msdfgen_BitmapRef* output_rgb, const msdfgen_Shape* shape, msdfgen_Range range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig);
+	void msdfgen_generateMTSDF_legacy(const msdfgen_BitmapRef* output_rgba, const msdfgen_Shape* shape, msdfgen_Range range, msdfgen_Vector2 scale, msdfgen_Vector2 translate, const msdfgen_ErrorCorrectionConfig* errorCorrectionConfig);
 
 
 	// Shape.h
