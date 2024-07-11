@@ -81,6 +81,11 @@ msdfgen_ShapeBounds msdfgen_getShapeBounds(const msdfgen_Shape* shape, double bo
 	return msdfgen_ShapeBounds{bounds.l, bounds.b, bounds.r, bounds.t};
 }
 
+void msdfgen_shapeOrientContours(msdfgen_Shape* shape)
+{
+	((Shape*)shape)->orientContours();
+}
+
 void msdfgen_edgeColoringSimple(msdfgen_Shape* shape, double angleThreshold, unsigned long long seed)
 {
 	edgeColoringSimple(PTR_TO_REF(Shape, shape), angleThreshold, seed);
